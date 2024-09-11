@@ -14,7 +14,7 @@ function NameForm() {
         Name:
         <input type="text" ref={inputRef} />
       </label>
-      <input type="submit" value="Submit" />
+      <button type="submit" value="Submit" />
     </form>
   );
 }

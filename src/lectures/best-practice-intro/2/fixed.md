@@ -1,6 +1,6 @@
 ```jsx
 function List({ data }) {
-  const sortedData = setSortedData(data.sort((a, b) => a - b));
+  const sortedData = data.sort((a, b) => a - b);
 
   return (
     <ul>

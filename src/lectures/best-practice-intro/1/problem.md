@@ -8,9 +8,9 @@ export function Dialog(props) {
   );
 }
 
-export function TriggerDialog() {
+export function TriggerDialog({ setIsOpen}) {
   return (
-    <button onClick={() => Dialog()}>Open Dialog</button>
+    <button onClick={() => setIsOpen(true)}>Open Dialog</button>
   );
 }
 
