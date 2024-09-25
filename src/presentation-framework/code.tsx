@@ -8,6 +8,7 @@ type Props = {
 export default function Code({ children }: Props) {
   return (
     <CodeBlock
+      customStyle={{ width: "100%" }}
       text={children}
       language={"jsx"}
       showLineNumbers={true}

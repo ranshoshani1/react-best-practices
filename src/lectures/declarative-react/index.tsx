@@ -1,13 +1,6 @@
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  Stack,
-  StackProps,
-  Typography,
-} from "@mui/joy";
+import { Box, Button, Card, Divider, Stack, Typography } from "@mui/joy";
 import { ReactNode, useState } from "react";
+import Slide from "../../common/slide";
 import { Presentation } from "../../presentation-framework";
 import Code from "../../presentation-framework/code";
 import declarativeExample from "./examples/declarative.jsx?raw";
@@ -31,20 +24,18 @@ function Header({
   );
 }
 
-const CenterStack = (props: StackProps) => (
-  <Stack height="100%" justifyContent="center" alignItems="center" {...props} />
-);
-
 const slides = [
   () => (
-    <CenterStack>
+    <Slide alignItems="center">
       <Typography level="h1">Declarative vs Imperative Programming</Typography>
-    </CenterStack>
+    </Slide>
   ),
   () => (
-    <Stack gap={10} alignItems="center">
-      <Stack textAlign="center">
-        <Typography level="h1">Imperative programming</Typography>
+    <Slide gap={10}>
+      <Stack>
+        <Typography level="h1" textAlign="justify">
+          Imperative programming
+        </Typography>
         <Typography level="h2" color="danger">
           How to do
         </Typography>
@@ -56,21 +47,21 @@ const slides = [
           can involve direct DOM manipulation.
         </Typography>
       </Stack>
-    </Stack>
+    </Slide>
   ),
   () => (
-    <Stack gap={4}>
+    <Slide gap={4}>
       <Code>{imperativeExample}</Code>
       <Typography level="h4">
         In this example, we imperatively update the button text by directly
         manipulating the DOM element (button.textContent = ...) when the button
         is clicked. You are telling the system how to update the UI.
       </Typography>
-    </Stack>
+    </Slide>
   ),
   () => (
-    <Stack gap={10} alignItems="center">
-      <Stack textAlign="center">
+    <Slide gap={10}>
+      <Stack>
         <Typography level="h1">Declarative programming</Typography>
         <Typography level="h2" color="danger">
           How should it look
@@ -84,21 +75,21 @@ const slides = [
           updating the UI.
         </Typography>
       </Stack>
-    </Stack>
+    </Slide>
   ),
   () => (
-    <Stack gap={4}>
+    <Slide gap={4}>
       <Code>{declarativeExample}</Code>
       <Typography level="h4">
         In this example, we declare the desired state of the button. React takes
         care of updating the DOM to reflect the changes in state (i.e., showing
         "Active" or "Inactive").
       </Typography>
-    </Stack>
+    </Slide>
   ),
   () => {
     return (
-      <Stack gap={4}>
+      <Slide gap={4}>
         <Header title="Benefits of declarative programming" />
         <Stack direction="column" gap={2} width="50vw">
           <Card>
@@ -125,27 +116,26 @@ const slides = [
             </Typography>
           </Card>
         </Stack>
-      </Stack>
+      </Slide>
     );
   },
   () => (
-    <CenterStack gap={4}>
-      <Typography level="h1">Non declarative programming in React</Typography>
-      <Typography level="h2">
+    <Slide gap={10} alignItems="flex-start">
+      <Typography level="h1">
         We can go even further and call some coding style as {"  "}
-        <Typography level="h2" color="danger">
+        <Typography level="h1" color="danger">
           Non declarative
         </Typography>
       </Typography>
-    </CenterStack>
+    </Slide>
   ),
   () => (
-    <Stack gap={4}>
+    <Slide gap={4}>
       <Code>{imperativeInReactExample}</Code>
-    </Stack>
+    </Slide>
   ),
   () => (
-    <CenterStack gap={4} alignItems="flex-start">
+    <Slide gap={4} alignItems="flex-start">
       <Typography level="h2">
         We can see that this code is not in a declarative fashion.
       </Typography>
@@ -163,12 +153,12 @@ const slides = [
         actually being rendered.
       </Typography>
       <Divider />
-    </CenterStack>
+    </Slide>
   ),
   () => (
-    <CenterStack>
+    <Slide>
       <Typography level="h1">We can fix it </Typography>
-    </CenterStack>
+    </Slide>
   ),
   () => {
     const [fixed, setFixed] = useState(false);
@@ -197,44 +187,44 @@ const slides = [
     );
 
     return (
-      <Stack gap={1} height="100%">
+      <Slide gap={1}>
         <Code>
           {fixed ? imperativeToDeclarative : imperativeInReactExample}
         </Code>
         <Box>{fixed ? <Unfix /> : <FixMe />}</Box>
-      </Stack>
+      </Slide>
     );
   },
   () => (
-    <CenterStack>
+    <Slide>
       <Typography level="h1">
         But sometimes we do need to use a more imperative approach
       </Typography>
-    </CenterStack>
+    </Slide>
   ),
   () => (
-    <Stack justifyContent="flex-start">
+    <Slide justifyContent="flex-start">
       <Code>{tableExample}</Code>
-    </Stack>
+    </Slide>
   ),
   () => (
-    <CenterStack>
+    <Slide>
       <Typography level="h1">
         In this example, we have several places that are dependent on `fields`,
         the Row and the Header.
         <br /> It makes more sense to edit them in a central place instead of
         going back and forth between a header component and a row component.
       </Typography>
-    </CenterStack>
+    </Slide>
   ),
   () => (
-    <CenterStack>
+    <Slide alignItems="center">
       <Typography level="h1">Conclusion</Typography>
-    </CenterStack>
+    </Slide>
   ),
   () => {
     return (
-      <CenterStack>
+      <Slide alignItems="center">
         <Stack gap={4} textAlign="center" width="50vh">
           <Typography level="h1">Be more declarative</Typography>
           <Typography level="h3">
@@ -243,28 +233,28 @@ const slides = [
             understand.
           </Typography>
         </Stack>
-      </CenterStack>
+      </Slide>
     );
   },
   () => {
     return (
-      <CenterStack>
+      <Slide alignItems="center">
         <Stack gap={4} textAlign="center" width="50vh">
           <Typography level="h2">
             But we can also be flexible and use imperative code when it makes
             more sense.
           </Typography>
         </Stack>
-      </CenterStack>
+      </Slide>
     );
   },
   () => {
     return (
-      <CenterStack>
+      <Slide alignItems="center">
         <Stack gap={4} textAlign="center" width="50vh">
           <Typography level="h1">Thank you!</Typography>
         </Stack>
-      </CenterStack>
+      </Slide>
     );
   },
 ];

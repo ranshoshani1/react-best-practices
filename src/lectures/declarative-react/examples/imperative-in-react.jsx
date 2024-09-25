@@ -1,10 +1,10 @@
-function NavMenu() {
-  const items = [
-    { id: "home", label: "Home", to: "/" },
-    { id: "about", label: "About", to: "/about" },
-    { id: "contact", label: "Contact", to: "/contact" },
-  ];
+const items = [
+  { id: "home", label: "Home", to: "/" },
+  { id: "about", label: "About", to: "/about" },
+  { id: "contact", label: "Contact", to: "/contact" },
+];
 
+function NavMenu() {
   return (
     <nav>
       <ul>

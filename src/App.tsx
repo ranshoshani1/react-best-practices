@@ -6,20 +6,27 @@ function App() {
 
   return (
     <Stack
-      direction="row"
+      direction="column"
       justifyContent="center"
       alignItems="center"
-      width="100vh"
-      height="100vh"
-      gap={3}
+      height="100%"
     >
-      <Button
-        onClick={() => {
-          navigate("/declarative");
-        }}
-      >
-        Declarative vs imperative programming
-      </Button>
+      <Stack width="50%" gap={3}>
+        <Button
+          onClick={() => {
+            navigate("/declarative");
+          }}
+        >
+          Declarative vs imperative programming
+        </Button>
+        <Button
+          onClick={() => {
+            navigate("/use-effect");
+          }}
+        >
+          Use Effect
+        </Button>
+      </Stack>
     </Stack>
   );
 }
