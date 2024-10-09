@@ -1,5 +1,5 @@
-import * as themes from "react-code-blocks";
-import { CodeBlock } from "react-code-blocks";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 type Props = {
   children: string;
@@ -7,12 +7,13 @@ type Props = {
 
 export default function Code({ children }: Props) {
   return (
-    <CodeBlock
-      customStyle={{ width: "100%" }}
-      text={children}
-      language={"jsx"}
-      showLineNumbers={true}
-      theme={themes.anOldHope}
-    />
+    <SyntaxHighlighter
+      language="tsx"
+      style={vscDarkPlus}
+      showLineNumbers
+      className="code-block"
+    >
+      {children}
+    </SyntaxHighlighter>
   );
 }

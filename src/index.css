@@ -51,6 +51,10 @@ body {
   border-radius: 10px;
 }
 
+.code-block {
+  height: 100%;
+}
+
 @keyframes glowing {
   0% {
     background-position: 0 0;

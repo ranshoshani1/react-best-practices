@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
 import Declarative from "./lectures/declarative-react/index.tsx";
+import LectureUseEffect from "./lectures/use-effect/index.tsx";
 import ThemeProvider from "./providers/theme-provider.tsx";
 
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/declarative",
     element: <Declarative />,
+  },
+  {
+    path: "/use-effect",
+    element: <LectureUseEffect />,
   },
 ]);
 
