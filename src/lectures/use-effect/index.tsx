@@ -1,13 +1,4 @@
-import {
-  Card,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  Stack,
-  Tooltip,
-  Typography,
-} from "@mui/joy";
+import { Card, Divider, List, ListItem, Stack, Typography } from "@mui/joy";
 import Slide from "../../common/slide";
 import { Presentation } from "../../presentation-framework";
 import DerivativeState from "./examples/derivative-state.tsx";
@@ -19,51 +10,12 @@ import timersExample from "./examples/timers.tsx?raw";
 import SyncStoreExample from "./examples/sync-store.tsx?raw";
 import externalServiceExample from "./examples/external-service.tsx?raw";
 import Code from "../../presentation-framework/code.tsx";
-import { useState } from "react";
-import { VscChevronDown, VscChevronUp } from "react-icons/vsc";
 import DependencyArray from "./examples/dependency-array.tsx";
 import dependencyArrayCode from "./examples/dependency-array.tsx?raw";
 import DependencyArrayFixed from "./examples/dependency-array-fixed.tsx";
 import dependencyArrayFixedCode from "./examples/dependency-array-fixed.tsx?raw";
 import cleanupExample from "./examples/cleanup.tsx?raw";
 import cleanupExampleFixed from "./examples/cleanup-fixed.tsx?raw";
-
-function CodeWithRender({
-  code,
-  component,
-}: {
-  code: string;
-  component: React.ReactNode;
-}) {
-  const [showCode, setShowCode] = useState(false);
-  return (
-    <Stack
-      direction="column"
-      gap={3}
-      height="100%"
-      width="100%"
-      alignItems="flex-start"
-    >
-      {component}
-      <Tooltip
-        title={!showCode ? "Show code" : " Hide code"}
-        placement="right"
-        arrow
-        variant="outlined"
-      >
-        <IconButton
-          onClick={() => setShowCode(!showCode)}
-          variant="plain"
-          color="neutral"
-          size="sm"
-        >
-          {!showCode ? <VscChevronDown /> : <VscChevronUp />}
-        </IconButton>
-      </Tooltip>
-      {showCode && <Code>{code}</Code>}
-    </Stack>
-  );
-}
 
 const slides = [
   () => (
