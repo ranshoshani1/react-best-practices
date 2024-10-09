@@ -1,7 +1,7 @@
 import { Stack, Tooltip, IconButton } from "@mui/joy";
 import { useState } from "react";
-import { Code } from "react-code-blocks";
 import { VscChevronDown, VscChevronUp } from "react-icons/vsc";
+import Code from "../presentation-framework/code";
 
 export function CodeWithRender({
   code,
