@@ -16,6 +16,7 @@ import DependencyArrayFixed from "./examples/dependency-array-fixed.tsx";
 import dependencyArrayFixedCode from "./examples/dependency-array-fixed.tsx?raw";
 import cleanupExample from "./examples/cleanup.tsx?raw";
 import cleanupExampleFixed from "./examples/cleanup-fixed.tsx?raw";
+import { CodeWithRender } from "../../common/code-with-render.tsx";
 
 const slides = [
   () => (
