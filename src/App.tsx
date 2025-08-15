@@ -26,6 +26,13 @@ function App() {
         >
           Use Effect
         </Button>
+        <Button
+          onClick={() => {
+            navigate("/cursor-follow");
+          }}
+        >
+          Cursor Follow
+        </Button>
       </Stack>
     </Stack>
   );
