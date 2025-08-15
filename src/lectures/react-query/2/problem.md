@@ -5,7 +5,7 @@ function useInstance(instanceId: string) {
   return useQuery({
     queryKey: getQueryKey(instanceId),
     queryFn: () => {
-      const instance = getInstance(instanceId);
+      const instance = await getInstance(instanceId);
       if (isPending(instance)) {
         setShouldPoll(true);
       }

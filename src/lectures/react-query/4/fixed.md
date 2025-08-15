@@ -1,6 +1,6 @@
-```jsx
+```tsx
 function useInstance(instanceId: string) {
-  return useQuery({
+  return useQuery<Instance>({
     queryKey: getQueryKey(instanceId),
     queryFn: () => getInstance(instanceId),
   });
