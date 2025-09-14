@@ -16,6 +16,8 @@ import Declarative from "./lectures/declarative-react/index.tsx";
 import LectureUseEffect from "./lectures/use-effect/index.tsx";
 import ThemeProvider from "./providers/theme-provider.tsx";
 import CursorFollow from "./lectures/cursor-follow/index.tsx";
+import LivingBackground from "./lectures/living-background/index.tsx";
+import GravityBackground from "./lectures/gravity-background/index.tsx";
 
 function Layout() {
   const navigate = useNavigate();
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
       {
         path: "cursor-follow",
         element: <CursorFollow />,
+      },
+      {
+        path: "living-background",
+        element: <LivingBackground />,
+      },
+      {
+        path: "gravity-background",
+        element: <GravityBackground />,
       },
     ],
   },

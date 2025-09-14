@@ -8,38 +8,51 @@ import {
   SidebarHeader,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { FollowType, ControlConfig, followTypes } from "./config";
 
 interface SliderControlProps {
-  label: string;
+  control: ControlConfig;
   value: number;
   onValueChange: (value: number) => void;
-  min: number;
-  max: number;
-  step: number;
-  formatValue?: (value: number) => string;
 }
 
-function SliderControl({
-  label,
-  value,
-  onValueChange,
-  min,
-  max,
-  step,
-  formatValue,
-}: SliderControlProps) {
+function SliderControl({ control, value, onValueChange }: SliderControlProps) {
+  if (control.type !== "slider") return null;
+  
   return (
     <div className="flex flex-col gap-4">
       <label className="text-sm font-medium">
-        {label}: {formatValue ? formatValue(value) : value}
+        {control.label}: {control.formatValue ? control.formatValue(value) : value}
       </label>
       <Slider
         value={[value]}
         onValueChange={(values) => onValueChange(values[0])}
-        min={min}
-        max={max}
-        step={step}
+        min={control.min || 0}
+        max={control.max || 100}
+        step={control.step || 1}
         className="w-full [&_[data-slot=slider-thumb]]:bg-slate-300"
+      />
+    </div>
+  );
+}
+
+interface ColorControlProps {
+  control: ControlConfig;
+  value: string;
+  onValueChange: (value: string) => void;
+}
+
+function ColorControl({ control, value, onValueChange }: ColorControlProps) {
+  if (control.type !== "color") return null;
+  
+  return (
+    <div className="space-y-5">
+      <label className="text-sm font-medium">{control.label}</label>
+      <input
+        type="color"
+        value={value}
+        onChange={(e) => onValueChange(e.target.value)}
+        className="w-full h-10 cursor-pointer"
       />
     </div>
   );
@@ -49,18 +62,32 @@ interface ControlsProps {
   settings: BallSettings;
   onSettingsChange: (settings: BallSettings) => void;
   onToggle: () => void;
+  selectedFollowType: string;
+  onFollowTypeChange: (typeId: string) => void;
 }
 
 export function Controls({
   settings,
   onSettingsChange,
   onToggle,
+  selectedFollowType,
+  onFollowTypeChange,
 }: ControlsProps) {
+  const currentFollowType = followTypes.find(type => type.id === selectedFollowType);
+  
   const updateSetting = (key: keyof BallSettings, value: number | string) => {
     onSettingsChange({
       ...settings,
       [key]: value,
     });
+  };
+
+  const handleFollowTypeChange = (typeId: string) => {
+    const followType = followTypes.find(type => type.id === typeId);
+    if (followType) {
+      onFollowTypeChange(typeId);
+      onSettingsChange(followType.defaultSettings);
+    }
   };
 
   return (
@@ -74,82 +101,56 @@ export function Controls({
 
       <Sidebar side="right">
         <SidebarHeader className="flex items-center justify-between p-6 border-b border-sidebar-border">
-          <h2 className="text-xl font-bold">Ball Controls</h2>
+          <h2 className="text-xl font-bold">Follow Controls</h2>
         </SidebarHeader>
 
         <SidebarContent className="p-6 space-y-7">
-          <SliderControl
-            label="Glow Size"
-            value={settings.glowSize}
-            onValueChange={(value) => updateSetting("glowSize", value)}
-            min={20}
-            max={800}
-            step={1}
-          />
-
-          <SliderControl
-            label="Glow Intensity"
-            value={settings.glowIntensity}
-            onValueChange={(value) => updateSetting("glowIntensity", value)}
-            min={0.1}
-            max={1}
-            step={0.01}
-            formatValue={(value) => `${Math.round(value * 100)}%`}
-          />
-
-          <SliderControl
-            label="Particle Count"
-            value={settings.particleCount}
-            onValueChange={(value) => updateSetting("particleCount", value)}
-            min={0}
-            max={400}
-            step={1}
-          />
-
-          <SliderControl
-            label="Particle Speed"
-            value={settings.particleSpeed}
-            onValueChange={(value) => updateSetting("particleSpeed", value)}
-            min={1}
-            max={10}
-            step={1}
-          />
-
-          <SliderControl
-            label="Particle Life"
-            value={settings.particleLife}
-            onValueChange={(value) => updateSetting("particleLife", value)}
-            min={1}
-            max={100}
-            step={1}
-          />
-
-          <div className="space-y-5">
-            <label className="text-sm font-medium">Glow Color</label>
-            <input
-              type="color"
-              value={settings.glowColor}
-              onChange={(e) => updateSetting("glowColor", e.target.value)}
-              className="w-full h-10 cursor-pointer"
-            />
+          <div className="space-y-4">
+            <label className="text-sm font-medium">Follow Type</label>
+            <div className="grid grid-cols-1 gap-2">
+              {followTypes.map((type) => (
+                <Button
+                  key={type.id}
+                  variant={selectedFollowType === type.id ? "default" : "outline"}
+                  onClick={() => handleFollowTypeChange(type.id)}
+                  className="justify-start"
+                >
+                  {type.name}
+                </Button>
+              ))}
+            </div>
           </div>
 
-          <Button
-            onClick={() =>
-              onSettingsChange({
-                glowSize: 100,
-                glowIntensity: 0.8,
-                particleCount: 20,
-                particleSpeed: 4,
-                particleLife: 5,
-                glowColor: "#3FE8FF",
-              })
-            }
-            variant="default"
-            className="w-full"
-          >
-            Reset to Default
-          </Button>
+          {currentFollowType && (
+            <>
+              {currentFollowType.controls.map((control) => (
+                <div key={control.key}>
+                  {control.type === "slider" && (
+                    <SliderControl
+                      control={control}
+                      value={settings[control.key] as number}
+                      onValueChange={(value) => updateSetting(control.key, value)}
+                    />
+                  )}
+                  {control.type === "color" && (
+                    <ColorControl
+                      control={control}
+                      value={settings[control.key] as string}
+                      onValueChange={(value) => updateSetting(control.key, value)}
+                    />
+                  )}
+                </div>
+              ))}
+
+              <Button
+                onClick={() => onSettingsChange(currentFollowType.defaultSettings)}
+                variant="default"
+                className="w-full"
+              >
+                Reset to Default
+              </Button>
+            </>
+          )}
         </SidebarContent>
       </Sidebar>
     </>

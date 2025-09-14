@@ -3,22 +3,40 @@ import { useCanvas } from "./useCanvas";
 import { Controls } from "./controls";
 import { BallSettings } from "./types";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { followTypes, getAnimationFunction } from "./config";
 
 export default function CursorFollow() {
   const [controlsOpen, setControlsOpen] = useState(false);
-  const [settings, setSettings] = useState<BallSettings>({
-    glowSize: 30,
-    glowIntensity: 0.2,
-    particleCount: 0,
-    particleSpeed: 4,
-    particleLife: 5,
-    glowColor: "#3FE8FF",
+  const [selectedFollowType, setSelectedFollowType] = useState("glow");
+  const [settings, setSettings] = useState<BallSettings>(() => {
+    const defaultType = followTypes.find((type) => type.id === "glow");
+    return (
+      defaultType?.defaultSettings || {
+        glowSize: 30,
+        glowIntensity: 0.2,
+        particleCount: 0,
+        particleSpeed: 4,
+        particleLife: 5,
+        glowColor: "#3FE8FF",
+      }
+    );
   });
+
+  const animationFunction = getAnimationFunction(selectedFollowType);
 
   const { canvasRef } = useCanvas({
     settings,
     showDemoBall: controlsOpen,
+    animate: animationFunction || (() => {}),
   });
+
+  const handleFollowTypeChange = (typeId: string) => {
+    setSelectedFollowType(typeId);
+    const followType = followTypes.find((type) => type.id === typeId);
+    if (followType) {
+      setSettings(followType.defaultSettings);
+    }
+  };
 
   return (
     <SidebarProvider open={controlsOpen}>
@@ -38,6 +56,8 @@ export default function CursorFollow() {
         settings={settings}
         onSettingsChange={setSettings}
         onToggle={() => setControlsOpen((prev) => !prev)}
+        selectedFollowType={selectedFollowType}
+        onFollowTypeChange={handleFollowTypeChange}
       />
     </SidebarProvider>
   );

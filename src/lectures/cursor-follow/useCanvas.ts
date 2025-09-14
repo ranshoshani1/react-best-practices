@@ -1,12 +1,18 @@
 import { useEffect, useRef, useCallback } from "react";
 import { BallSettings } from "./types";
+import { AnimationFunction } from "./config";
 
 interface UseCanvasProps {
   settings: BallSettings;
   showDemoBall?: boolean;
+  animate: AnimationFunction;
 }
 
-export function useCanvas({ settings, showDemoBall = false }: UseCanvasProps) {
+export function useCanvas({
+  settings,
+  showDemoBall = false,
+  animate,
+}: UseCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const mouseRef = useRef({ x: 0, y: 0 });
@@ -56,109 +62,31 @@ export function useCanvas({ settings, showDemoBall = false }: UseCanvasProps) {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const animate = () => {
+    const animationLoop = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const mouse = mouseRef.current;
 
       if (mouse.x > 0 && mouse.y > 0 && !showDemoBall) {
-        ctx.save();
-        ctx.globalCompositeOperation = "screen";
-
-        const gradient = ctx.createRadialGradient(
-          mouse.x,
-          mouse.y,
-          0,
-          mouse.x,
-          mouse.y,
-          settings.glowSize
-        );
-        gradient.addColorStop(
-          0,
-          `${settings.glowColor}${Math.floor(settings.glowIntensity * 255)
-            .toString(16)
-            .padStart(2, "0")}`
-        );
-        gradient.addColorStop(
-          0.5,
-          `${settings.glowColor}${Math.floor(settings.glowIntensity * 0.5 * 255)
-            .toString(16)
-            .padStart(2, "0")}`
-        );
-        gradient.addColorStop(1, `${settings.glowColor}00`);
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, settings.glowSize, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-
-        if (Math.random() < settings.particleCount / 100) {
-          particlesRef.current.push({
-            x: mouse.x,
-            y: mouse.y,
-            vx: (Math.random() - 0.5) * settings.particleSpeed,
-            vy: (Math.random() - 0.5) * settings.particleSpeed,
-            life: 1,
-            maxLife: 1,
-          });
-        }
+        animate(ctx, canvas, mouse, settings, particlesRef.current);
       }
 
       if (showDemoBall) {
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-
-        ctx.save();
-        ctx.globalCompositeOperation = "screen";
-
-        const demoGradient = ctx.createRadialGradient(
-          centerX,
-          centerY,
-          0,
-          centerX,
-          centerY,
-          settings.glowSize
+        animate(
+          ctx,
+          canvas,
+          { x: centerX, y: centerY },
+          settings,
+          particlesRef.current
         );
-        demoGradient.addColorStop(
-          0,
-          `${settings.glowColor}${Math.floor(settings.glowIntensity * 255)
-            .toString(16)
-            .padStart(2, "0")}`
-        );
-        demoGradient.addColorStop(
-          0.5,
-          `${settings.glowColor}${Math.floor(settings.glowIntensity * 0.5 * 255)
-            .toString(16)
-            .padStart(2, "0")}`
-        );
-        demoGradient.addColorStop(1, `${settings.glowColor}00`);
-
-        ctx.fillStyle = demoGradient;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, settings.glowSize, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-
-        if (Math.random() < settings.particleCount / 100) {
-          particlesRef.current.push({
-            x: centerX,
-            y: centerY,
-            vx: (Math.random() - 0.5) * settings.particleSpeed,
-            vy: (Math.random() - 0.5) * settings.particleSpeed,
-            life: 1,
-            maxLife: 1,
-          });
-        }
       }
 
       particlesRef.current = particlesRef.current.filter((particle) => {
         particle.x += particle.vx;
         particle.y += particle.vy;
 
-        // Add gravity to make particles fall down
         particle.vy += 0.1;
 
         particle.life -= 1 / (settings.particleLife * 50);
@@ -176,10 +104,10 @@ export function useCanvas({ settings, showDemoBall = false }: UseCanvasProps) {
         return false;
       });
 
-      animationRef.current = requestAnimationFrame(animate);
+      animationRef.current = requestAnimationFrame(animationLoop);
     };
 
-    animate();
+    animationLoop();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
@@ -187,7 +115,7 @@ export function useCanvas({ settings, showDemoBall = false }: UseCanvasProps) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [settings, showDemoBall]);
+  }, [settings, showDemoBall, animate]);
 
   return { canvasRef };
 }

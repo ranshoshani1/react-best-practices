@@ -33,6 +33,20 @@ function App() {
         >
           Cursor Follow
         </Button>
+        <Button
+          onClick={() => {
+            navigate("/living-background");
+          }}
+        >
+          Living Background
+        </Button>
+        <Button
+          onClick={() => {
+            navigate("/gravity-background");
+          }}
+        >
+          Gravity Background
+        </Button>
       </Stack>
     </Stack>
   );

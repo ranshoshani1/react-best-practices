@@ -1,0 +1,17 @@
+@keyframes orbit-200 {
+  0% {
+    transform: rotate(0deg) translateX(200px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(200px) rotate(-360deg);
+  }
+}
+
+@keyframes orbit-300 {
+  0% {
+    transform: rotate(0deg) translateX(300px) rotate(-360deg);
+  }
+  100% {
+    transform: rotate(-360deg) translateX(300px) rotate(0deg);
+  }
+}
