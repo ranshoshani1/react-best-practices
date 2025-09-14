@@ -1,7 +1,9 @@
+
 useEffect(() => {
   const unsubscribe = someGlobalStore.subscribe(() => {
-    setData(someGlobalStore.getData());
+    const data = someGlobalStore.getData();
+    setDataInAnotherStore(data);
   });
 
   return () => unsubscribe();
-}, []); 
+}, []);

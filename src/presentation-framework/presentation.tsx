@@ -69,7 +69,7 @@ export default function Presentation({ slides }: Props) {
         previous,
       }}
     >
-      <Stack height="80%" p={5}>
+      <Stack height="100%" p={5}>
         <Slide />
         <Stack
           direction="row"

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Button } from "@mui/joy";
+import { Button, Stack } from "@mui/joy";
 import { useCallback, useEffect, useState } from "react";
 import { sha256 } from "../../../utils";
 
@@ -15,7 +15,6 @@ function Avatar({ name }: { name: string }) {
   const email = emails[name] || "";
 
   const fetchAvatar = useCallback(() => {
-    console.log("Fetching avatar...");
     sha256(email).then((hash) =>
       setAvatarUrl(`https://www.gravatar.com/avatar/${hash}?d=404`)
     );
@@ -34,7 +33,6 @@ function Avatar({ name }: { name: string }) {
 
 export default function App() {
   const [name, setName] = useState("Ran");
-  const [showName, setShowName] = useState(true);
 
   const ChooseName = ({ name }: any) => {
     return (
@@ -44,18 +42,17 @@ export default function App() {
         color="primary"
         sx={{ width: "100px" }}
       >
-        {showName ? name : "------"}
+        {name}
       </Button>
     );
   };
 
   return (
-    <>
+    <Stack direction="row" gap={2}>
       <ChooseName name="Ran" />
       <ChooseName name="Shai" />
       <ChooseName name="Ido" />
       <Avatar name={name} />
-      <Button onClick={() => setShowName((prev) => !prev)}>Toggle</Button>
-    </>
+    </Stack>
   );
 }

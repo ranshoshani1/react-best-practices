@@ -1,4 +1,5 @@
-import React from "react";
+import { Button, Stack } from "@mui/joy";
+import { useEffect, useState } from "react";
 
 interface CountProps {
   count: number[];
@@ -7,9 +8,9 @@ interface CountProps {
 function Count({ count }: CountProps) {
   console.log("Count");
 
-  const [sum, setSum] = React.useState<number>(0);
+  const [sum, setSum] = useState<number>(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSum(count.reduce((acc: number, curr: number) => acc + curr, 0));
   }, [count]);
 
@@ -22,25 +23,25 @@ interface NumbersProps {
 
 function Numbers({ addToCount }: NumbersProps) {
   return (
-    <>
-      <button onClick={() => addToCount(1)}>1</button>
-      <button onClick={() => addToCount(2)}>2</button>
-      <button onClick={() => addToCount(3)}>3</button>
-    </>
+    <Stack direction="row" gap={2}>
+      <Button onClick={() => addToCount(1)}>1</Button>
+      <Button onClick={() => addToCount(2)}>2</Button>
+      <Button onClick={() => addToCount(3)}>3</Button>
+    </Stack>
   );
 }
 
 export default function App() {
-  const [count, setCount] = React.useState<number[]>([]);
+  const [count, setCount] = useState<number[]>([]);
 
   const addToCount = (num: number) => {
     setCount([...count, num]);
   };
 
   return (
-    <div>
+    <Stack direction="row" gap={5}>
       <Numbers addToCount={addToCount} />
       <Count count={count} />
-    </div>
+    </Stack>
   );
 }

@@ -1,7 +1,6 @@
 import "@fontsource/oswald";
 import { Sheet, IconButton } from "@mui/joy";
 import { Close } from "@mui/icons-material";
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import {
   createBrowserRouter,
@@ -25,7 +24,7 @@ function Layout() {
 
   return (
     <>
-      {location.pathname !== "/" && (
+      {/* {location.pathname !== "/" && (
         <IconButton
           onClick={() => navigate("/")}
           sx={{
@@ -42,7 +41,7 @@ function Layout() {
         >
           <Close />
         </IconButton>
-      )}
+      )} */}
       <Outlet />
     </>
   );
@@ -82,11 +81,9 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ThemeProvider colorScheme="dark">
-      <Sheet sx={{ height: "100%" }} variant="soft" className="dark">
-        <RouterProvider router={router} />
-      </Sheet>
-    </ThemeProvider>
-  </StrictMode>
+  <ThemeProvider colorScheme="dark">
+    <Sheet sx={{ height: "100%" }} variant="soft" className="dark">
+      <RouterProvider router={router} />
+    </Sheet>
+  </ThemeProvider>
 );
