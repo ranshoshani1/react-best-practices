@@ -12,6 +12,8 @@ import externalServiceExample from "./examples/external-service.tsx?raw";
 import Code from "../../presentation-framework/code.tsx";
 import DependencyArray from "./examples/dependency-array.tsx";
 import dependencyArrayCode from "./examples/dependency-array.tsx?raw";
+import DependencyArray2 from "./examples/dependency-array2.tsx";
+import dependencyArray2Code from "./examples/dependency-array2.tsx?raw";
 import DependencyArrayFixed from "./examples/dependency-array-fixed.tsx";
 import dependencyArrayFixedCode from "./examples/dependency-array-fixed.tsx?raw";
 import cleanupExample from "./examples/cleanup.tsx?raw";
@@ -21,10 +23,18 @@ import infiniteRenderCode from "./examples/infinite-render.tsx?raw";
 import InfiniteRenderFixed from "./examples/infinite-render-fixed.tsx";
 import infiniteRenderFixedCode from "./examples/infinite-render-fixed.tsx?raw";
 import { CodeWithRender } from "../../common/code-with-render.tsx";
+import TimerButton from "./components/timer-button.tsx";
+
+const TIMER_DURATION = 60000;
 
 const slides = [
   () => (
-    <Slide alignItems="center" justifyContent="center" textAlign="center">
+    <Slide
+      alignItems="center"
+      justifyContent="center"
+      textAlign="center"
+      gap={4}
+    >
       <Typography level="h1" sx={{ fontSize: "7rem" }}>
         Use Effect and its uses
       </Typography>
@@ -97,6 +107,7 @@ const slides = [
     return (
       <Slide gap={4}>
         <Code>{cleanupExample}</Code>
+        <TimerButton timeMs={TIMER_DURATION} />
       </Slide>
     );
   },
@@ -115,6 +126,7 @@ const slides = [
         code={derivativeStateExample}
         component={<DerivativeState />}
       />
+      <TimerButton timeMs={TIMER_DURATION} />
     </Slide>
   ),
   () => (
@@ -144,6 +156,18 @@ const slides = [
           code={dependencyArrayCode}
           component={<DependencyArray />}
         />
+        <TimerButton timeMs={TIMER_DURATION} />
+      </Slide>
+    );
+  },
+  () => {
+    return (
+      <Slide gap={4}>
+        <CodeWithRender
+          code={dependencyArray2Code}
+          component={<DependencyArray2 />}
+        />
+        <TimerButton timeMs={TIMER_DURATION} />
       </Slide>
     );
   },
@@ -172,6 +196,7 @@ const slides = [
     return (
       <Slide gap={4}>
         <Code>{infiniteRenderCode}</Code>
+        <TimerButton timeMs={TIMER_DURATION} />
       </Slide>
     );
   },
