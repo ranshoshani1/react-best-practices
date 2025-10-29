@@ -25,7 +25,7 @@ import infiniteRenderFixedCode from "./examples/infinite-render-fixed.tsx?raw";
 import { CodeWithRender } from "../../common/code-with-render.tsx";
 import TimerButton from "./components/timer-button.tsx";
 
-const TIMER_DURATION = 60000;
+const TIMER_DURATION = 30000;
 
 const slides = [
   () => (
